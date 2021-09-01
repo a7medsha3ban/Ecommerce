@@ -42,5 +42,11 @@ class adminController extends Controller
         return back();
     }
 
+    public function settings(){
+
+        $admin=Auth::guard('admin')->user();
+        return view('admin.settings')->with(compact('admin'));
+    }
+
 
 }
