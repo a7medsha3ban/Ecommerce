@@ -11,11 +11,12 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -28,6 +29,7 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         Route::get('dashboard', 'adminController@dashboard');
         Route::get('logout', 'adminController@logout');
         Route::get('settings', 'adminController@settings');
-
+        Route::post('check-current-Password', 'adminController@check_currentPassword');
+        Route::post('update-current-password', 'adminController@update_currentPassword');
     });
 });

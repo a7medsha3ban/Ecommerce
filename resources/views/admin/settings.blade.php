@@ -27,12 +27,15 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form>
+        @if (Session::has('error'))
+            <div class="alert alert-danger" style="margin-top: 10px">{{ Session::get('error') }}</div>
+        @endif
+        @if (Session::has('success_message'))
+            <div class="alert alert-info" style="margin-top: 10px">{{ Session::get('success_message') }}</div>
+        @endif
+        <form method="post" action="{{url('admin/update-current-password')}}">
+            @csrf
             <div class="card-body">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Admin Name</label>
-                    <input class="form-control" value="{{$admin->name}}">
-                </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Admin Email</label>
                     <input class="form-control" readonly value="{{$admin->email}}">
@@ -43,15 +46,16 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Current Password</label>
-                    <input name="currentPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Current Password">
+                    <input required name="currentPassword" type="password" class="form-control" id="currentPassword" placeholder="Enter Current Password">
+                    <span id="checkCurrentPassword"></span>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">New Password</label>
-                    <input name="newPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter New Password">
+                    <input required name="newPassword" type="password" class="form-control" id="newPassword" placeholder="Enter New Password">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Confirm Password</label>
-                    <input name="confirmPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="Confirm Password">
+                    <input required name="confirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
                 </div>
             </div>
             <!-- /.card-body -->

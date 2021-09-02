@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf_token" content="{{ csrf_token() }}">
     <title>AdminLTE 3 | Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -82,5 +83,7 @@
 <script src="{{url('js/admin_js/demo.js"></')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{url('js/admin_js/pages/dashboard.js')}}"></script>
+<script src="{{url('js/admin_js/admin_script.js')}}"></script>
+
 </body>
 </html>

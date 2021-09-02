@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -48,5 +50,33 @@ class adminController extends Controller
         return view('admin.settings')->with(compact('admin'));
     }
 
+    public function check_currentPassword(Request $request){
+        $data = $request->all();
+        $password=Auth::guard('admin')->user()->password;
+        if(Hash::check($data['currentPassword'],$password)){
+            echo "true";
+        }
+        echo "false";
+    }
+
+    public function update_currentPassword(Request $request){
+        $data=$request->all();
+        $currentAdmin=Auth::guard('admin')->user();
+        if(Hash::check($data['currentPassword'],$currentAdmin->password)){
+            if($data['newPassword']==$data['confirmPassword']){
+                Admin::where('id',$currentAdmin->id)
+                    ->update(['password'=>Hash::make($data['newPassword'])]);
+                Session::flash('success_message', 'Password updated successfully');
+            }
+            else{
+                Session::flash('error', 'Your Passwords Does not match');
+            }
+        }
+        else{
+            Session::flash('error', 'your current password is incorrect');
+            return redirect()->back();
+        }
+        return redirect()->back();
+    }
 
 }

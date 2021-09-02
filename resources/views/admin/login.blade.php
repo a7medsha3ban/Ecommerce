@@ -25,11 +25,11 @@
             <p class="login-box-msg">Sign in to start your session</p>
             @if($errors)
                 @foreach($errors->all() as $error)
-                    <div class="alert alert-danger">{{$error}}</div>
+                    <div class="alert alert-danger" style="margin-top: 10px">{{$error}}</div>
                 @endforeach
             @endif
             @if (Session::has('error'))
-                <div class="alert alert-info">{{ Session::get('error') }}</div>
+                <div class="alert alert-info" style="margin-top: 10px">{{ Session::get('error') }}</div>
             @endif
             <form action="{{url('/admin/login')}}" method="post" enctype="multipart/form-data">
                 @csrf
