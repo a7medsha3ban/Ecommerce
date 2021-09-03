@@ -101,21 +101,21 @@ class adminController extends Controller
             }
 //            admin can add or change his profile picture method #1
 
-//            if ($request->hasFile('adminImage')) {
-//                $imageTemp = $request->file('adminImage');
-//                if($imageTemp->isValid()){
-//                    $imageName = time() . '_' . \Str::random(15) . '.' . $imageTemp
-//                            ->getClientOriginalExtension();
-//                    $imagePath = 'images/admin_images/admin_photos/' . $imageName;
-//                    Image::make($imageTemp)->save($imagePath);
-//                }
-//                else if(!isEmpty($data['currentAdminImage'])){
-//                    $imagePath=$data['currentAdminImage'];
-//                }
-//                else{
-//                    $imagePath="";
-//                }
-//            }
+            if ($request->hasFile('adminImage')) {
+                $imageTemp = $request->file('adminImage');
+                if($imageTemp->isValid()){
+                    $imageName = time() . '_' . \Str::random(15) . '.' . $imageTemp
+                            ->getClientOriginalExtension();
+                    $imagePath = 'images/admin_images/admin_photos/' . $imageName;
+                    Image::make($imageTemp)->save($imagePath);
+                }
+                else if(!isEmpty($data['currentAdminImage'])){
+                    $imagePath=$data['currentAdminImage'];
+                }
+                else{
+                    $imagePath="";
+                }
+            }
 
 
 //            admin can add or change his profile picture method #2
