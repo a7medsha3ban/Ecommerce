@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Admin Settings</h1>
+                        <h1 class="m-0">Admin Details</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Settings</li>
+                            <li class="breadcrumb-item active">DetailsZ</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -29,18 +29,20 @@
                         <!-- general form elements -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Update Password</h3>
+                                <h3 class="card-title">Update Details</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            @if (Session::has('error'))
-                                <div class="alert alert-danger" style="margin-top: 10px">{{ Session::get('error') }}</div>
-                            @endif
                             @if (Session::has('success_message'))
                                 <div class="alert alert-info" style="margin-top: 10px">
                                     {{ Session::get('success_message') }}</div>
                             @endif
-                            <form method="post" action="{{ url('admin/update-current-password') }}">
+                            @if($errors)
+                                @foreach($errors->all() as $error)
+                                    <div class="alert alert-danger" style="margin-top: 10px">{{$error}}</div>
+                                @endforeach
+                            @endif
+                            <form method="post" action="{{ url('admin/details') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
@@ -52,20 +54,23 @@
                                         <input class="form-control" readonly value="{{ $admin->type }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Current Password</label>
-                                        <input required name="currentPassword" type="password" class="form-control"
-                                            id="currentPassword" placeholder="Enter Current Password">
-                                        <span id="checkCurrentPassword"></span>
+                                        <label for="exampleInputPassword1">Admin Name</label>
+                                        <input required name="adminName" type="text" class="form-control"
+                                            id="adminName" placeholder="{{$admin->name}}" value="{{old('adminName')}}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">New Password</label>
-                                        <input required name="newPassword" type="password" class="form-control"
-                                            id="newPassword" placeholder="Enter New Password">
+                                        <label for="exampleInputPassword2">Admin Mobile</label>
+                                        <input required name="adminMobile" type="text" class="form-control"
+                                               id="adminMobile" placeholder="{{$admin->mobile}}" value="{{old('adminMobile')}}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Confirm Password</label>
-                                        <input required name="confirmPassword" type="password" class="form-control"
-                                            id="confirmPassword" placeholder="Confirm Password">
+                                        <label for="exampleInputPassword1">Admin Image</label>
+                                        @if(!empty($admin->image))
+                                            <a target="_blank" href="{{url($admin->image)}}">View Image</a>
+                                            <input type="hidden" name="currentAdminImage" value="{{$admin->image}}">
+                                        @endif
+                                        <input name="adminImage" type="file" class="form-control"
+                                               id="adminImage" placeholder="{{$admin->image}}">
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
