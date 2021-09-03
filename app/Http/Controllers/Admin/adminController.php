@@ -101,31 +101,12 @@ class adminController extends Controller
             }
 //            admin can add or change his profile picture method #1
 
-            if ($request->hasFile('adminImage')) {
-                $imageTemp = $request->file('adminImage');
-                if($imageTemp->isValid()){
-                    $imageName = time() . '_' . \Str::random(15) . '.' . $imageTemp
-                            ->getClientOriginalExtension();
-                    $imagePath = 'images/admin_images/' . $imageName;
-                    Image::make($imageTemp)->save($imagePath);
-                }
-                else if(!isEmpty($data['currentAdminImage'])){
-                    $imagePath=$data['currentAdminImage'];
-                }
-                else{
-                    $imagePath="";
-                }
-            }
-
-
-//            admin can add or change his profile picture method #2
-
 //            if ($request->hasFile('adminImage')) {
 //                $imageTemp = $request->file('adminImage');
 //                if($imageTemp->isValid()){
-//                    $extention=$imageTemp->getClientOriginalExtension();
-//                    $imageName=rand(111,9999).'.'.$extention;
-//                    $imagePath='images/admin_images/admin_photos'.$imageName;
+//                    $imageName = time() . '_' . \Str::random(15) . '.' . $imageTemp
+//                            ->getClientOriginalExtension();
+//                    $imagePath = 'images/admin_images/admin_photos/' . $imageName;
 //                    Image::make($imageTemp)->save($imagePath);
 //                }
 //                else if(!isEmpty($data['currentAdminImage'])){
@@ -135,6 +116,26 @@ class adminController extends Controller
 //                    $imagePath="";
 //                }
 //            }
+
+
+//            admin can add or change his profile picture method #2
+
+//            if ($request->hasFile('adminImage')) {
+//                $imageTemp = $request->file('adminImage');
+//                if($imageTemp->isValid()){
+//                    $extention=$imageTemp->getClientOriginalExtension();
+//                    $imageName=rand(111,9999).'.'.$extention;
+//                    $imagePath='images/admin_images/admin_photos/'.$imageName;
+//                    Image::make($imageTemp)->save($imagePath);
+//                }
+//                else if(!isEmpty($data['currentAdminImage'])){
+//                    $imagePath=$data['currentAdminImage'];
+//                }
+//                else{
+//                    $imagePath="";
+//                }
+//            }
+
             Admin::where('id',$currentAdmin->id)
                 ->update(['name'=>$data['adminName'], 'mobile'=>$data['adminMobile'],'image'=>$imagePath]);
             Session::flash('success_message', 'Admin Data Updated Successfully');
