@@ -15,6 +15,7 @@ use function PHPUnit\Framework\isEmpty;
 class adminController extends Controller
 {
     public function dashboard(){
+        Session::put('page','dashboard');
         return view('admin.dashboard');
     }
 
@@ -47,7 +48,7 @@ class adminController extends Controller
     }
 
     public function settings(){
-
+        Session::put('page','settings');
         $admin=Auth::guard('admin')->user();
         return view('admin.settings')->with(compact('admin'));
     }
@@ -82,6 +83,7 @@ class adminController extends Controller
     }
 
     public function update_adminDetails(Request $request){
+        Session::put('page','details');
         if($request->isMethod('POST')){
             $data=$request->all();
             $currentAdmin = Auth::guard('admin')->user();
@@ -100,27 +102,7 @@ class adminController extends Controller
 
             }
 //            admin can add or change his profile picture method #1
-
-            if ($request->hasFile('adminImage')) {
-                $imageTemp = $request->file('adminImage');
-                if($imageTemp->isValid()){
-                    $imageName = time() . '_' . \Str::random(15) . '.' . $imageTemp
-                            ->getClientOriginalExtension();
-                    $imagePath = 'images/admin_images/admin_photos/' . $imageName;
-                    Image::make($imageTemp)->save($imagePath);
-                }
-                else if(!isEmpty($data['currentAdminImage'])){
-                    $imagePath=$data['currentAdminImage'];
-                }
-                else{
-                    $imagePath="";
-                }
-            }
-
-
-//            admin can add or change his profile picture method #2
-
-//            if ($request->hasFile('adminImage')) {
+            //            if ($request->hasFile('adminImage')) {
 //                $imageTemp = $request->file('adminImage');
 //                if($imageTemp->isValid()){
 //                    $extention=$imageTemp->getClientOriginalExtension();
@@ -135,6 +117,26 @@ class adminController extends Controller
 //                    $imagePath="";
 //                }
 //            }
+
+
+//            admin can add or change his profile picture method #2
+
+            if ($request->hasFile('adminImage')) {
+                $imageTemp = $request->file('adminImage');
+                if($imageTemp->isValid()){
+                    $imageName = time() . '_' . \Str::random(15) . '.' . $imageTemp
+                            ->getClientOriginalExtension();
+                    $imagePath = 'images/admin_images/admin_photos/' . $imageName;
+                    Image::make($imageTemp)->resize(300,400)->save($imagePath);
+                }
+                else if(!isEmpty($data['currentAdminImage'])){
+                    $imagePath=$data['currentAdminImage'];
+                }
+                else{
+                    $imagePath="";
+                }
+            }
+
 
             Admin::where('id',$currentAdmin->id)
                 ->update(['name'=>$data['adminName'], 'mobile'=>$data['adminMobile'],'image'=>$imagePath]);
