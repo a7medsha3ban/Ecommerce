@@ -32,5 +32,17 @@ Route::prefix('/admin')->namespace('Admin')->group(function () {
         Route::post('check-current-Password', 'adminController@check_currentPassword');
         Route::post('update-current-password', 'adminController@update_currentPassword');
         Route::match(['GET', 'POST'], 'details','adminController@update_adminDetails');
+
+
+        //Sections Routes
+
+        Route::get('sections', 'sectionController@sections');
+        Route::post('update-section-status', 'sectionController@update_status');
+
+
+        //Categories Routes
+
+        Route::get('categories', 'categoryController@categories');
+        Route::post('update-category-status', 'categoryController@update_status');
     });
 });
